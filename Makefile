@@ -10,7 +10,7 @@ RELEASE_AMD64_BINARY := $(RELEASES_DIR)/$(RELEASE_AMD64_DIR)/kube-ebpf-exporter
 release-binaries:
 	rm -rf $(RELEASES_DIR)/*
 	mkdir -p $(RELEASES_DIR)/$(RELEASE_AMD64_DIR)
-	docker build -t kube-ebpf-exporter-build .
+	docker build -t kube-ebpf-exporter-build -f Dockerfile.ubuntu .
 	docker run --rm --entrypoint cat kube-ebpf-exporter-build /root/go/bin/kube-ebpf-exporter > $(RELEASE_AMD64_BINARY)
 	chmod +x $(RELEASE_AMD64_BINARY)
 	cd $(RELEASES_DIR) && tar -czf $(RELEASE_AMD64_DIR).tar.gz $(RELEASE_AMD64_DIR)
