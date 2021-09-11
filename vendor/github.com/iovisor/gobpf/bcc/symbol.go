@@ -24,7 +24,7 @@ import (
 /*
 #cgo CFLAGS: -I/usr/include/bcc/compat
 #cgo LDFLAGS: -lbcc
-#include <bcc/bpf_common.h>
+#include <bcc/bcc_common.h>
 #include <bcc/libbpf.h>
 #include <bcc/bcc_syms.h>
 extern void foreach_symbol_callback(char*, uint64_t);
@@ -96,6 +96,7 @@ func bccResolveName(module, symname string, pid int) (uint64, error) {
 
 	pidC := C.int(pid)
 	cache := C.bcc_symcache_new(pidC, symbolC)
+	defer C.bcc_free_symcache(cache, pidC)
 
 	moduleCS := C.CString(module)
 	defer C.free(unsafe.Pointer(moduleCS))
